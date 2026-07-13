@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardápio Completo — Toka Gastrobar</title>
+<meta name="description" content="Cardápio completo do Toka Gastrobar: entradas, porções, especiais da casa, massas, hambúrgueres, bebidas e sobremesas.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@500;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --char-950:#120e0b; --char-900:#181310; --char-800:#221a15; --char-700:#2c221b;
+    --cream:#f3e9d6; --cream-dim:#cdbfa8; --smoke:#8c8175;
+    --ember:#e8491d; --ember-2:#ff7a3d; --gold:#d9a441; --gold-dim:#a9803a;
+    --line: rgba(243,233,214,0.12);
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--char-950); color:var(--cream); font-family:'Manrope',sans-serif; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Anton',sans-serif; font-weight:400; margin:0;}
+  .script{font-family:'Caveat',cursive; font-weight:700;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  /* NAV */
+  .nav{position:fixed; top:0; left:0; right:0; z-index:900; background:rgba(18,14,11,0.9); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  .nav-inner{max-width:var(--maxw); margin:0 auto; padding:16px 28px; display:flex; align-items:center; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.3rem;}
+  .brand svg{width:20px; height:20px;}
+  .back-link{font-size:0.85rem; color:var(--cream-dim); display:flex; align-items:center; gap:8px; transition:color .2s;}
+  .back-link:hover{color:var(--gold);}
+  .nav-cta{background:var(--ember); color:#fff8ef; font-weight:700; font-size:0.85rem; padding:10px 18px; border-radius:100px; text-transform:uppercase; letter-spacing:.04em; transition:.2s;}
+  .nav-cta:hover{background:var(--ember-2); transform:translateY(-2px);}
+
+  /* HERO STRIP */
+  .menu-hero{padding:150px 0 50px; text-align:center; position:relative; overflow:hidden;}
+  .menu-hero::before{content:""; position:absolute; inset:0; background:radial-gradient(ellipse 60% 60% at 50% 0%, rgba(232,73,29,0.14), transparent 65%);}
+  .menu-hero h1{font-size:clamp(2.6rem,6vw,4.6rem); position:relative;}
+  .menu-hero p{color:var(--cream-dim); max-width:520px; margin:18px auto 0; position:relative;}
+
+  /* CATEGORY NAV (sticky) */
+  .catnav{position:sticky; top:64px; z-index:80; background:rgba(18,14,11,0.94); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); border-top:1px solid var(--line);}
+  .catnav-inner{max-width:var(--maxw); margin:0 auto; padding:14px 28px; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;}
+  .catnav-inner::-webkit-scrollbar{display:none;}
+  .catnav a{
+    flex-shrink:0; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em;
+    padding:9px 16px; border-radius:100px; border:1px solid var(--line); color:var(--cream-dim); transition:.2s;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .catnav a:hover{color:var(--cream); border-color:var(--gold-dim);}
+  .catnav a.active{background:var(--ember); border-color:var(--ember); color:#fff8ef;}
+
+  /* SECTIONS */
+  .menu-section{padding:90px 0 20px; scroll-margin-top:130px;}
+  .sec-head{display:flex; align-items:baseline; gap:18px; margin-bottom:10px;}
+  .sec-head h2{font-size:clamp(2rem,4vw,2.8rem); color:var(--cream);}
+  .sec-head .sec-num{font-family:'JetBrains Mono',monospace; color:var(--gold-dim); font-size:0.95rem;}
+  .sec-note{color:var(--smoke); font-size:0.92rem; margin-bottom:40px; max-width:560px;}
+  .subhead{
+    font-family:'Caveat',cursive; font-size:1.5rem; color:var(--gold); margin:34px 0 6px;
+  }
+
+  .menu-grid{display:grid; grid-template-columns:1fr 1fr; gap:0 60px;}
+  .item{
+    display:flex; justify-content:space-between; gap:20px; padding:18px 0;
+    border-bottom:1px dashed var(--line); transition:padding-left .25s ease, border-color .25s ease;
+  }
+  .item:hover{padding-left:8px; border-color:rgba(232,73,29,0.4);}
+  .item:hover .item-name{color:var(--ember-2);}
+  .item-name{font-weight:800; font-size:1.02rem; transition:color .25s ease;}
+  .item-desc{color:var(--smoke); font-size:0.85rem; margin-top:4px; line-height:1.5;}
+  .item-price{font-family:'JetBrains Mono',monospace; color:var(--gold); font-weight:600; white-space:nowrap; font-size:0.98rem;}
+
+  .divider{display:flex; align-items:center; gap:18px; max-width:var(--maxw); margin:60px auto; padding:0 28px; color:var(--gold-dim);}
+  .divider .stick{flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);}
+  .divider svg{width:22px; height:22px; opacity:.7; flex-shrink:0;}
+
+  .badge18{
+    display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:0.72rem;
+    color:var(--ember-2); border:1px solid rgba(232,73,29,0.4); padding:5px 10px; border-radius:100px; margin-bottom:24px;
+  }
+
+  footer{border-top:1px solid var(--line); padding:60px 0; text-align:center; color:var(--smoke); font-size:0.85rem;}
+  footer a{color:var(--gold); }
+
+  .wa-float{
+    position:fixed; bottom:26px; right:26px; z-index:800; width:58px; height:58px; border-radius:50%;
+    background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 12px 30px rgba(37,211,102,0.45);
+  }
+  .wa-float svg{width:28px; height:28px; color:#fff;}
+
+  @media (max-width:760px){
+    .menu-grid{grid-template-columns:1fr;}
+    .nav-cta, .back-link span{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="back-link" href="index.html">← <span>Voltar ao site</span></a>
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2c2 3-1 4-1 6.5A3.5 3.5 0 0 0 15 12c0-1 0-2 .8-3 .6 1 1.2 2 1.2 3.8A5 5 0 0 1 12 22a5 5 0 0 1-5-5c0-3 2-4 2-6.5C9 8 8 9 7 10c0-4 2-6 5-8Z" fill="currentColor" style="color:#e8491d"/></svg>
+      TOKA
+    </div>
+    <a class="nav-cta" href="https://wa.me/5519931999790?text=Ol%C3%A1!%20Quero%20fazer%20uma%20reserva%20no%20Toka." target="_blank" rel="noopener">Reservar</a>
+  </div>
+</nav>
+
+<section class="menu-hero">
+  <div class="wrap">
+    <div class="kicker script" style="color:var(--gold); font-size:1.4rem; margin-bottom:6px;">o cardápio completo</div>
+    <h1>TUDO QUE SAI<br>DA NOSSA BRASA</h1>
+    <p>Da entrada à sobremesa, passando pelos drinks autorais. Preços em reais, sujeitos a alteração sem aviso prévio.</p>
+  </div>
+</section>
+
+<div class="catnav">
+  <div class="catnav-inner" id="catnav">
+    <a href="#entradas">Entradas</a>
+    <a href="#porcoes">Porções</a>
+    <a href="#especiais">Especiais da Casa</a>
+    <a href="#pratos">Pratos Individuais</a>
+    <a href="#massas">Massas</a>
+    <a href="#infantis">Infantis</a>
+    <a href="#baguetes">Baguetes & Burgers</a>
+    <a href="#bebidas">Bebidas</a>
+    <a href="#drinks">Drinks & Gin</a>
+    <a href="#sobremesas">Sobremesas</a>
+  </div>
+</div>
+
+<!-- ENTRADAS -->
+<section class="menu-section" id="entradas">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Entradas</h2></div>
+    <p class="sec-note">Pra abrir bem a mesa antes do prato principal.</p>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Escondidinho de Costela</div><div class="item-desc">Com purê cremoso de batata</div></div><div class="item-price">R$ 27</div></div>
+      <div class="item"><div><div class="item-name">Escondidinho de Camarão</div><div class="item-desc">Com purê cremoso de batata</div></div><div class="item-price">R$ 29</div></div>
+      <div class="item"><div><div class="item-name">Salame</div><div class="item-desc">Fatiado, acompanha azeitona</div></div><div class="item-price">R$ 30</div></div>
+      <div class="item"><div><div class="item-name">Salada Simples</div><div class="item-desc">Alface, tomate, cebola</div></div><div class="item-price">R$ 20</div></div>
+      <div class="item"><div><div class="item-name">Salada Mix</div><div class="item-desc">Alface, tomate, cebola e palmito</div></div><div class="item-price">R$ 27</div></div>
+      <div class="item"><div><div class="item-name">Tábua de Frios</div><div class="item-desc">Mussarela, presunto, azeitona, palmito, salame e ovos de codorna</div></div><div class="item-price">R$ 95</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORÇÕES -->
+<section class="menu-section" id="porcoes">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Porções</h2></div>
+    <p class="sec-note">O forte da casa — pensadas pra dividir.</p>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Mandioca Frita</div><div class="item-desc">Acompanha molho de alho</div></div><div class="item-price">R$ 38</div></div>
+      <div class="item"><div><div class="item-name">Bolinha de Queijo</div><div class="item-desc">Molho da casa · 10 unidades</div></div><div class="item-price">R$ 39</div></div>
+      <div class="item"><div><div class="item-name">Coxinha Carne Seca c/ Gorgonzola</div><div class="item-desc">Molho da casa · 10 unidades</div></div><div class="item-price">R$ 39</div></div>
+      <div class="item"><div><div class="item-name">Coxinha de Costela</div><div class="item-desc">Molho da casa · 10 unidades</div></div><div class="item-price">R$ 39</div></div>
+      <div class="item"><div><div class="item-name">Calabresa Acebolada</div><div class="item-desc">Acompanha baguete</div></div><div class="item-price">R$ 44</div></div>
+      <div class="item"><div><div class="item-name">Croquete Holandês</div><div class="item-desc">Molho da casa · 10 unidades</div></div><div class="item-price">R$ 40</div></div>
+      <div class="item"><div><div class="item-name">Peixe Porquinho Frito</div><div class="item-desc">Acompanha molho de alho</div></div><div class="item-price">R$ 59</div></div>
+      <div class="item"><div><div class="item-name">Torresmo</div><div class="item-desc">Receita tradicional de buteco</div></div><div class="item-price">R$ 39</div></div>
+      <div class="item"><div><div class="item-name">Pastel Carne c/ Queijo</div><div class="item-desc">Vinagrete · 6 unidades</div></div><div class="item-price">R$ 40</div></div>
+      <div class="item"><div><div class="item-name">Pastel Queijo</div><div class="item-desc">Vinagrete · 6 unidades</div></div><div class="item-price">R$ 40</div></div>
+      <div class="item"><div><div class="item-name">Pastel Costela</div><div class="item-desc">Vinagrete · 6 unidades</div></div><div class="item-price">R$ 42</div></div>
+      <div class="item"><div><div class="item-name">Pastel Frango c/ Catupiry</div><div class="item-desc">Vinagrete · 6 unidades</div></div><div class="item-price">R$ 40</div></div>
+      <div class="item"><div><div class="item-name">Pastel Camarão</div><div class="item-desc">Vinagrete · 6 unidades</div></div><div class="item-price">R$ 43</div></div>
+      <div class="item"><div><div class="item-name">Batata Frita</div><div class="item-desc">Molho três queijos e farofa de bacon</div></div><div class="item-price">R$ 40</div></div>
+      <div class="item"><div><div class="item-name">Batata c/ Catupiry</div><div class="item-desc">&nbsp;</div></div><div class="item-price">R$ 42</div></div>
+      <div class="item"><div><div class="item-name">Bolinho de Carne</div><div class="item-desc">4 unid. acompanha vinagrete</div></div><div class="item-price">R$ 38</div></div>
+      <div class="item"><div><div class="item-name">Barriga de Porco</div><div class="item-desc">Crocante, acompanha molho BBQ</div></div><div class="item-price">R$ 44</div></div>
+      <div class="item"><div><div class="item-name">Tilápia Frita</div><div class="item-desc">Acompanha molho da casa</div></div><div class="item-price">R$ 51</div></div>
+      <div class="item"><div><div class="item-name">Frango a Passarinho</div><div class="item-desc">Acompanha molho da casa</div></div><div class="item-price">R$ 51</div></div>
+      <div class="item"><div><div class="item-name">Linguiça Cuiabana</div><div class="item-desc">Mista recheada c/ queijo, acompanha baguete</div></div><div class="item-price">R$ 53</div></div>
+      <div class="item"><div><div class="item-name">Contra Filé</div><div class="item-desc">Em tiras acebolado, acompanha baguete</div></div><div class="item-price">R$ 75</div></div>
+      <div class="item"><div><div class="item-name">Parmegiana no Palito</div><div class="item-desc">Filé mignon ao molho caseiro de tomate e queijo</div></div><div class="item-price">R$ 85</div></div>
+      <div class="item"><div><div class="item-name">Mignon Quatro Queijos</div><div class="item-desc">Acompanha baguete</div></div><div class="item-price">R$ 85</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ESPECIAIS -->
+<section class="menu-section" id="especiais">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Especiais da Casa</h2></div>
+    <p class="sec-note">Pratos grandes, feitos pra mesa cheia — a assinatura do Toka.</p>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Contra Filé e Mandioca</div><div class="item-desc">Acebolado na chapa, baguete com batata ou mandioca frita · serve até 2</div></div><div class="item-price">R$ 98</div></div>
+      <div class="item"><div><div class="item-name">Trio do Toka</div><div class="item-desc">Frango a passarinho, batata frita e calabresa acebolada · serve até 3</div></div><div class="item-price">R$ 122</div></div>
+      <div class="item"><div><div class="item-name">Cupim c/ Mandioca</div><div class="item-desc">Acompanha vinagrete e maionese · serve até 2</div></div><div class="item-price">R$ 119</div></div>
+      <div class="item"><div><div class="item-name">Churrastoka</div><div class="item-desc">Linguiça artesanal, contra filé em tiras, tulipa assada e batata c/ molho três queijos · serve até 3</div></div><div class="item-price">R$ 139</div></div>
+    </div>
+    <div class="subhead">Pratos especiais</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Parmegiana de Tilápia</div><div class="item-desc">Arroz branco, purê de mandioca e fritas · serve até 2</div></div><div class="item-price">R$ 99</div></div>
+      <div class="item"><div><div class="item-name">Salmão Grelhado</div><div class="item-desc">Arroz branco, mix de folhas e tomate recheado · serve até 2</div></div><div class="item-price">R$ 110</div></div>
+      <div class="item"><div><div class="item-name">Parmegiana Filé Mignon</div><div class="item-desc">Molho de tomate fresco, arroz branco e fritas · serve até 2</div></div><div class="item-price">R$ 110</div></div>
+      <div class="item"><div><div class="item-name">Picanha na Chapa</div><div class="item-desc">Arroz branco, vinagrete, farofa + 2 opções: batata/mandioca, pão de alho, feijão ou salada</div></div><div class="item-price">R$ 139 / 249</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRATOS INDIVIDUAIS -->
+<section class="menu-section" id="pratos">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Pratos Individuais</h2></div>
+    <p class="sec-note">Pra matar a fome sem dividir com ninguém.</p>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Filé de Frango Empanado</div><div class="item-desc">Arroz branco, feijão e fritas</div></div><div class="item-price">R$ 45</div></div>
+      <div class="item"><div><div class="item-name">Contra Filé Acebolado</div><div class="item-desc">Arroz branco, feijão e fritas</div></div><div class="item-price">R$ 52</div></div>
+      <div class="item"><div><div class="item-name">Iscas de Tilápia Empanada</div><div class="item-desc">Arroz branco, feijão e fritas</div></div><div class="item-price">R$ 47</div></div>
+      <div class="item"><div><div class="item-name">Parmegiana Filé Mignon</div><div class="item-desc">Arroz branco e fritas</div></div><div class="item-price">R$ 59</div></div>
+      <div class="item"><div><div class="item-name">Salmão Grelhado</div><div class="item-desc">Arroz branco, mix de folhas e tomate recheado</div></div><div class="item-price">R$ 62</div></div>
+      <div class="item"><div><div class="item-name">Picanha</div><div class="item-desc">Arroz branco, feijão, fritas e vinagrete</div></div><div class="item-price">R$ 65</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MASSAS -->
+<section class="menu-section" id="massas">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Massas</h2></div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Spaghetti ao Sugo</div><div class="item-desc">Molho de tomate especial da casa, tomates frescos e manjericão</div></div><div class="item-price">R$ 38</div></div>
+      <div class="item"><div><div class="item-name">Penne Bolonhesa</div><div class="item-desc">À moda da casa, molho c/ carnes nobres e especiarias</div></div><div class="item-price">R$ 41</div></div>
+      <div class="item"><div><div class="item-name">Spaghetti à Carbonara</div><div class="item-desc">Molho branco, ovo, bacon e parmesão</div></div><div class="item-price">R$ 45</div></div>
+      <div class="item"><div><div class="item-name">Penne Parmegiana</div><div class="item-desc">Filé mignon, queijo c/ molho da casa e especiarias</div></div><div class="item-price">R$ 56</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INFANTIS -->
+<section class="menu-section" id="infantis">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Pratos Infantis</h2></div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Filezinho do Lorenzo</div><div class="item-desc">Arroz branco, filé de frango grelhado e purê de batatas</div></div><div class="item-price">R$ 43</div></div>
+      <div class="item"><div><div class="item-name">Tilápinha do Miguel</div><div class="item-desc">Arroz branco e batata smiles</div></div><div class="item-price">R$ 42</div></div>
+      <div class="item"><div><div class="item-name">Strogonofinho da Isadora</div><div class="item-desc">Arroz e batata smiles · escolha carne ou frango</div></div><div class="item-price">R$ 45</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BAGUETES & BURGERS -->
+<section class="menu-section" id="baguetes">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">07</span><h2>Baguetes & Hambúrguer</h2></div>
+    <div class="subhead">Baguetes</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Linguiça Cuiabana</div><div class="item-desc">Queijo, cebola, vinagrete e maionese</div></div><div class="item-price">R$ 37</div></div>
+      <div class="item"><div><div class="item-name">Churrasco</div><div class="item-desc">Pão francês, contra filé, queijo prato e vinagrete</div></div><div class="item-price">R$ 39</div></div>
+      <div class="item"><div><div class="item-name">Mignon em Tiras</div><div class="item-desc">Queijo, cebola e alface, acompanha molho da casa</div></div><div class="item-price">R$ 39</div></div>
+      <div class="item"><div><div class="item-name">Vegetariano</div><div class="item-desc">Hambúrguer de falafel, cream cheese, rúcula, tomate e cebola</div></div><div class="item-price">R$ 37</div></div>
+      <div class="item"><div><div class="item-name">Cupim</div><div class="item-desc">Cupim desfiado com cebola, mussarela, catupiry e vinagrete</div></div><div class="item-price">R$ 39</div></div>
+    </div>
+    <div class="subhead">Hambúrguer</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Picanha</div><div class="item-desc">Pão brioche, farofa de bacon, alface, tomate e blend de queijo</div></div><div class="item-price">R$ 38</div></div>
+      <div class="item"><div><div class="item-name">Costela Bacon</div><div class="item-desc">Pão brioche, hambúrguer de costela, bacon em tiras, alface e queijo</div></div><div class="item-price">R$ 38</div></div>
+      <div class="item"><div><div class="item-name">Lírios Hamburguitos</div><div class="item-desc">6 unid. blend de carne, alface, tomate, queijo, cebola e bacon</div></div><div class="item-price">R$ 65</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEBIDAS -->
+<section class="menu-section" id="bebidas">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">08</span><h2>Bebidas</h2></div>
+    <div class="badge18">🔞 Álcool para menores é proibido</div>
+    <div class="subhead">Não alcoólicas</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Água s/ Gás</div></div><div class="item-price">R$ 6</div></div>
+      <div class="item"><div><div class="item-name">Água c/ Gás</div></div><div class="item-price">R$ 6</div></div>
+      <div class="item"><div><div class="item-name">Refri Lata</div></div><div class="item-price">R$ 8</div></div>
+      <div class="item"><div><div class="item-name">H2OH</div></div><div class="item-price">R$ 9</div></div>
+      <div class="item"><div><div class="item-name">Tônica</div></div><div class="item-price">R$ 9</div></div>
+      <div class="item"><div><div class="item-name">Red Bull</div></div><div class="item-price">R$ 18,50</div></div>
+    </div>
+    <div class="subhead">Suco natural</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">C/ Água</div><div class="item-desc">Laranja, limão, abacaxi, maracujá, morango, abacaxi c/ hortelã</div></div><div class="item-price">R$ 10</div></div>
+      <div class="item"><div><div class="item-name">C/ Leite</div></div><div class="item-price">R$ 12</div></div>
+      <div class="item"><div><div class="item-name">Limonada Suíça</div></div><div class="item-price">R$ 13</div></div>
+      <div class="item"><div><div class="item-name">Soda Italiana</div><div class="item-desc">Morango, framboesa, maçã verde, gengibre ou limão siciliano</div></div><div class="item-price">R$ 16</div></div>
+      <div class="item"><div><div class="item-name">Chopp Brahma 330ml</div></div><div class="item-price">R$ 11</div></div>
+    </div>
+    <div class="subhead">Cervejas Longneck</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Heineken Zero</div></div><div class="item-price">R$ 12</div></div>
+      <div class="item"><div><div class="item-name">Malzbier Brahma</div></div><div class="item-price">R$ 12</div></div>
+      <div class="item"><div><div class="item-name">Budweiser</div></div><div class="item-price">R$ 12</div></div>
+    </div>
+    <div class="subhead">Cervejas 600ml</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Heineken Puro Malte</div></div><div class="item-price">R$ 17</div></div>
+      <div class="item"><div><div class="item-name">Original Pilsen</div></div><div class="item-price">R$ 16</div></div>
+      <div class="item"><div><div class="item-name">Corona Extra</div></div><div class="item-price">R$ 17</div></div>
+    </div>
+    <div class="subhead">Whisky · dose ou garrafa</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Red Label</div></div><div class="item-price">R$ 27 / 240</div></div>
+      <div class="item"><div><div class="item-name">Jack Daniels</div></div><div class="item-price">R$ 30 / 300</div></div>
+      <div class="item"><div><div class="item-name">Chivas</div></div><div class="item-price">R$ 30 / 300</div></div>
+    </div>
+    <div class="subhead">Vodka · dose ou garrafa</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Smirnoff</div></div><div class="item-price">R$ 17 / 120</div></div>
+      <div class="item"><div><div class="item-name">Absolut</div></div><div class="item-price">R$ 25 / 260</div></div>
+    </div>
+    <div class="subhead">Gin · dose ou garrafa</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Gordons</div></div><div class="item-price">R$ 20 / 240</div></div>
+      <div class="item"><div><div class="item-name">Tanqueray</div></div><div class="item-price">R$ 27 / 280</div></div>
+    </div>
+    <div class="subhead">Destilados · doses</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Licor 43</div></div><div class="item-price">R$ 30 / 280</div></div>
+      <div class="item"><div><div class="item-name">Tequila Ouro/Prata</div></div><div class="item-price">R$ 28 / 250</div></div>
+      <div class="item"><div><div class="item-name">Ballena</div></div><div class="item-price">R$ 30</div></div>
+      <div class="item"><div><div class="item-name">Cointreau</div></div><div class="item-price">R$ 28</div></div>
+      <div class="item"><div><div class="item-name">Steinhaeger</div></div><div class="item-price">R$ 20</div></div>
+      <div class="item"><div><div class="item-name">Campari</div></div><div class="item-price">R$ 16</div></div>
+      <div class="item"><div><div class="item-name">Rum</div></div><div class="item-price">R$ 12</div></div>
+      <div class="item"><div><div class="item-name">Domecq</div></div><div class="item-price">R$ 12</div></div>
+      <div class="item"><div><div class="item-name">Seleta</div></div><div class="item-price">R$ 10</div></div>
+      <div class="item"><div><div class="item-name">Sagatiba</div></div><div class="item-price">R$ 10</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DRINKS -->
+<section class="menu-section" id="drinks">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">09</span><h2>Drinks & Gin</h2></div>
+    <div class="subhead">Caipirinhas de frutas — escolha a bebida</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Cachaça</div><div class="item-desc">Limão, abacaxi, morango, maracujá ou kiwi</div></div><div class="item-price">R$ 26</div></div>
+      <div class="item"><div><div class="item-name">Vinho</div></div><div class="item-price">R$ 26</div></div>
+      <div class="item"><div><div class="item-name">Saquê</div></div><div class="item-price">R$ 27</div></div>
+      <div class="item"><div><div class="item-name">Smirnoff</div></div><div class="item-price">R$ 28</div></div>
+      <div class="item"><div><div class="item-name">Absolut</div></div><div class="item-price">R$ 30</div></div>
+    </div>
+    <div class="subhead">Caipirinhas especiais</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Maracujá c/ Limão e Manjericão</div></div><div class="item-price">R$ 30</div></div>
+      <div class="item"><div><div class="item-name">Frutas Vermelhas</div></div><div class="item-price">R$ 30</div></div>
+      <div class="item"><div><div class="item-name">Limão Siciliano</div></div><div class="item-price">R$ 30</div></div>
+    </div>
+    <div class="subhead">Gin Drinks</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Da Casa</div><div class="item-desc">Gin, tônica, limão siciliano e xarope de limão siciliano</div></div><div class="item-price">R$ 33</div></div>
+      <div class="item"><div><div class="item-name">Maçã Verde</div><div class="item-desc">Gin, tônica e xarope de maçã verde</div></div><div class="item-price">R$ 33</div></div>
+      <div class="item"><div><div class="item-name">Frutas Vermelhas</div><div class="item-desc">Gin, tônica e xarope de cranberry</div></div><div class="item-price">R$ 33</div></div>
+      <div class="item"><div><div class="item-name">Morango</div><div class="item-desc">Gin, tônica e xarope de morango</div></div><div class="item-price">R$ 33</div></div>
+      <div class="item"><div><div class="item-name">Maracujá e Manjericão</div><div class="item-desc">Gin, tônica e xarope de maracujá</div></div><div class="item-price">R$ 35</div></div>
+      <div class="item"><div><div class="item-name">Toka Flower</div><div class="item-desc">Gin, soda, xarope de rosas e espuma de gengibre</div></div><div class="item-price">R$ 35</div></div>
+      <div class="item"><div><div class="item-name">Dragon Flower</div><div class="item-desc">Gin, abacaxi, xarope de mirtilo e energético de pitaya</div></div><div class="item-price">R$ 39</div></div>
+      <div class="item"><div><div class="item-name">Tropical</div><div class="item-desc">Gin, suco de laranja, energético tropical e espuma de gengibre</div></div><div class="item-price">R$ 39</div></div>
+    </div>
+    <div class="subhead">Drinks clássicos</div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Cozumel</div><div class="item-desc">Cerveja, limão e sal</div></div><div class="item-price">R$ 22</div></div>
+      <div class="item"><div><div class="item-name">Marguerita</div><div class="item-desc">Tequila, cointreau e limão espremido</div></div><div class="item-price">R$ 28</div></div>
+      <div class="item"><div><div class="item-name">Dry Martini</div><div class="item-desc">Gin, vermute seco e azeitona</div></div><div class="item-price">R$ 28</div></div>
+      <div class="item"><div><div class="item-name">Sex on the Beach</div><div class="item-desc">Suco de laranja, vodka, licor de pêssego e grenadine</div></div><div class="item-price">R$ 28</div></div>
+      <div class="item"><div><div class="item-name">Mojito de Limão</div><div class="item-desc">Rum carta blanca, limão espremido, hortelã e água c/ gás</div></div><div class="item-price">R$ 28</div></div>
+      <div class="item"><div><div class="item-name">Espanhola</div><div class="item-desc">Morango, abacaxi, leite condensado e vinho</div></div><div class="item-price">R$ 30</div></div>
+      <div class="item"><div><div class="item-name">Piña Colada</div><div class="item-desc">Rum, suco de abacaxi, leite de coco e leite condensado</div></div><div class="item-price">R$ 30</div></div>
+      <div class="item"><div><div class="item-name">Mojito Frutas Vermelhas</div><div class="item-desc">Rum carta blanca, frutas vermelhas, hortelã e água c/ gás</div></div><div class="item-price">R$ 30</div></div>
+      <div class="item"><div><div class="item-name">Aperol Spritz</div><div class="item-desc">Aperol, espumante e laranja fatiada</div></div><div class="item-price">R$ 30</div></div>
+      <div class="item"><div><div class="item-name">Negroni</div><div class="item-desc">Gin, campari, vermute tinto e laranja fatiada</div></div><div class="item-price">R$ 28</div></div>
+      <div class="item"><div><div class="item-name">Negroni c/ Aperol</div><div class="item-desc">Gin, Aperol, vermute tinto e laranja fatiada</div></div><div class="item-price">R$ 28</div></div>
+      <div class="item"><div><div class="item-name">Moscow Mule</div><div class="item-desc">Vodka, limão espremido, xarope e espuma de gengibre</div></div><div class="item-price">R$ 32</div></div>
+      <div class="item"><div><div class="item-name">Manhattan</div><div class="item-desc">Uísque e vermute tinto</div></div><div class="item-price">R$ 35</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBREMESAS -->
+<section class="menu-section" id="sobremesas">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">10</span><h2>Sobremesas</h2></div>
+    <div class="menu-grid">
+      <div class="item"><div><div class="item-name">Bolinho de Doce de Leite c/ Churros</div><div class="item-desc">Assado na panelinha, cream cheese e sorvete de creme</div></div><div class="item-price">R$ 25</div></div>
+      <div class="item"><div><div class="item-name">Bolinho de Chocolate do Chef</div><div class="item-desc">Farofa doce de castanha, sorvete de creme e calda de brigadeiro</div></div><div class="item-price">R$ 25</div></div>
+      <div class="item"><div><div class="item-name">Brownie de Chocolate</div><div class="item-desc">Recheio de doce de leite e sorvete de morango</div></div><div class="item-price">R$ 30</div></div>
+      <div class="item"><div><div class="item-name">Sorvete da Casa</div><div class="item-desc">Duas bolas de sorvete e calda de chocolate</div></div><div class="item-price">R$ 17</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="stick"></div>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12h13M12 8l4-4M12 16l4 4"/></svg>
+  <div class="stick"></div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="script" style="font-size:1.6rem; color:var(--gold);">Gratidão pela preferência. Volte sempre.</p>
+    <p>Rua Ernesto Tagliari, 1151 — Artur Nogueira, SP · <a href="tel:+551931999790">(19) 3199-9790</a></p>
+    <p><a href="index.html">← Voltar para o site</a></p>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5519931999790?text=Ol%C3%A1!%20Quero%20fazer%20uma%20reserva%20no%20Toka." target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.7-2.7-.2-.3A8 8 0 1 1 12 20Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7.9-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.3.1-.4l.4-.5c.1-.1.1-.3 0-.4l-.7-1.6c-.2-.4-.3-.4-.5-.4h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 4 3.4.6.2 1 .4 1.4.5.6.2 1.1.2 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-.9.1-1Z"/></svg>
+</a>
+
+<script>
+  const links = document.querySelectorAll('#catnav a');
+  const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const id = '#' + e.target.id;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+      }
+    });
+  }, {rootMargin:'-40% 0px -55% 0px'});
+  sections.forEach(s => s && io.observe(s));
+</script>
+
+</body>
+</html>
