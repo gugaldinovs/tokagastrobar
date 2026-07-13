@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toka Gastrobar — Artur Nogueira, SP</title>
+<meta name="description" content="Toka Gastrobar. Brasa, drinks autorais e boteco de verdade em Artur Nogueira, SP. Reserve sua mesa pelo WhatsApp.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@500;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --char-950:#0a0908;
+    --char-900:#111011;
+    --char-800:#181616;
+    --char-700:#211d1c;
+    --cream:#f2ede4;
+    --cream-dim:#b9b0a2;
+    --smoke:#79726a;
+    --ember:#e8491d;
+    --ember-2:#ff7a3d;
+    --gold:#d9a441;
+    --gold-dim:#a9803a;
+    --line: rgba(242,237,228,0.09);
+    --shadow-ember: 0 0 40px rgba(232,73,29,0.35);
+    --maxw: 1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--char-950);
+    color:var(--cream);
+    font-family:'Manrope',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--ember);color:var(--char-950);}
+
+  h1,h2,h3{font-family:'Anton',sans-serif; font-weight:400; letter-spacing:0.01em; margin:0;}
+  .script{font-family:'Caveat',cursive; font-weight:700;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  /* subtle grain */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:2000;
+    opacity:0.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed; top:0; left:0; right:0; z-index:900;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+    background:linear-gradient(to bottom, rgba(18,14,11,0.9), rgba(18,14,11,0));
+    transition:background .3s ease, padding .3s ease, box-shadow .3s ease;
+  }
+  .nav.scrolled{
+    background:rgba(18,14,11,0.86);
+    backdrop-filter:blur(10px);
+    padding:12px 28px;
+    box-shadow:0 1px 0 var(--line);
+  }
+  .nav-inner{max-width:var(--maxw); margin:0 auto; width:100%; display:flex; align-items:center; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.35rem; letter-spacing:0.03em;}
+  .brand svg{width:22px; height:22px;}
+  .nav-links{display:flex; gap:30px; font-size:0.92rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em;}
+  .nav-links a{position:relative; padding:4px 0; opacity:0.85; transition:opacity .2s;}
+  .nav-links a:hover{opacity:1;}
+  .nav-links a::after{content:"";position:absolute; left:0; bottom:0; height:2px; width:0; background:var(--ember); transition:width .25s ease;}
+  .nav-links a:hover::after{width:100%;}
+  .nav-cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--ember); color:#fff8ef; font-weight:700; font-size:0.85rem;
+    padding:10px 18px; border-radius:100px; text-transform:uppercase; letter-spacing:0.04em;
+    box-shadow:0 8px 24px rgba(232,73,29,0.35);
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .nav-cta:hover{transform:translateY(-2px); box-shadow:0 12px 30px rgba(232,73,29,0.5); background:var(--ember-2);}
+  .burger{display:none; flex-direction:column; gap:5px; cursor:pointer; z-index:950;}
+  .burger span{width:26px; height:2px; background:var(--cream); transition:.3s;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex; align-items:center;
+    padding-top:80px;
+    overflow:hidden;
+    background:
+      linear-gradient(180deg, rgba(10,9,8,0.86) 0%, rgba(10,9,8,0.93) 55%, var(--char-950) 100%),
+      radial-gradient(ellipse 60% 50% at 20% 100%, rgba(232,73,29,0.18), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 85% 15%, rgba(217,164,65,0.08), transparent 60%),
+      url('images/toka-fachada.jpg') center 22%/cover no-repeat,
+      var(--char-950);
+  }
+  @media (max-width:980px){
+    .hero{flex-direction:column; align-items:flex-start; padding-top:110px; padding-bottom:60px;}
+  }
+  #embers{position:absolute; inset:0; z-index:1;}
+  .hero-content{position:relative; z-index:3; width:100%;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono',monospace; font-size:0.78rem; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:22px;
+    padding:7px 14px; border:1px solid rgba(217,164,65,0.4); border-radius:100px;
+    background:rgba(217,164,65,0.06);
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--ember); box-shadow:0 0 8px var(--ember); animation:pulse 1.8s infinite ease-in-out;}
+  @keyframes pulse{0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.4; transform:scale(0.7);}}
+
+  .hero h1{
+    font-size:clamp(3.2rem, 9vw, 7.4rem);
+    line-height:0.92;
+    color:var(--cream);
+    text-shadow:0 0 60px rgba(232,73,29,0.25);
+  }
+  .hero h1 .flame-word{position:relative; color:var(--ember); display:inline-block;}
+  .hero h1 .flame-word svg{
+    position:absolute; top:-0.62em; right:-0.1em; width:0.7em; height:0.7em;
+    filter:drop-shadow(0 0 12px rgba(255,122,61,0.8));
+    animation:flicker 2.4s infinite ease-in-out;
+    transform-origin:50% 90%;
+  }
+  @keyframes flicker{
+    0%,100%{transform:rotate(-3deg) scale(1);}
+    30%{transform:rotate(2deg) scale(1.05);}
+    55%{transform:rotate(-5deg) scale(0.96);}
+    75%{transform:rotate(3deg) scale(1.03);}
+  }
+  .hero-tagline{
+    font-family:'Caveat',cursive; font-weight:700; font-size:clamp(1.4rem,2.4vw,2rem);
+    color:var(--gold); margin-top:14px; margin-bottom:22px;
+  }
+  .hero p.desc{
+    max-width:520px; color:var(--cream-dim); font-size:1.08rem; line-height:1.6; margin-bottom:38px;
+  }
+  .hero-ctas{display:flex; flex-wrap:wrap; gap:16px; align-items:center;}
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:16px 28px; border-radius:100px; font-weight:700; font-size:0.95rem;
+    letter-spacing:0.02em; cursor:pointer; border:1px solid transparent;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+  }
+  .btn svg{width:19px; height:19px;}
+  .btn-solid{background:var(--ember); color:#fff8ef; box-shadow:0 10px 30px rgba(232,73,29,0.4);}
+  .btn-solid:hover{transform:translateY(-3px); box-shadow:0 16px 36px rgba(232,73,29,0.55); background:var(--ember-2);}
+  .btn-ghost{border-color:rgba(243,233,214,0.3); color:var(--cream);}
+  .btn-ghost:hover{border-color:var(--gold); color:var(--gold); transform:translateY(-3px);}
+
+  .hero-visual{
+    position:absolute; right:4%; bottom:8%;
+    width:clamp(150px, 15vw, 240px); z-index:2; pointer-events:none;
+    transition:transform .15s ease-out;
+  }
+  .hero-visual .glass-shell{position:relative; will-change:transform; animation:floatGlass 5.5s ease-in-out infinite;}
+  .hero-visual img{width:100%; display:block;
+    filter:drop-shadow(0 35px 50px rgba(0,0,0,0.55)) drop-shadow(0 0 50px rgba(232,73,29,0.28));
+  }
+  .hero-visual .glass-shell::before{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.4) 46%, transparent 62%);
+    mix-blend-mode:overlay; animation:sweep 4.2s ease-in-out infinite; pointer-events:none;
+  }
+  @keyframes floatGlass{0%,100%{transform:translateY(0) rotate(-2deg);} 50%{transform:translateY(-14px) rotate(1.5deg);}}
+  @keyframes sweep{0%,10%{transform:translateX(-130%);} 55%,100%{transform:translateX(130%);}}
+  @media (max-width:1180px){ .hero-visual{width:170px;} }
+  @media (max-width:980px){
+    .hero-visual{
+      position:static; margin:8px auto 0 auto; width:130px; align-self:center;
+      order:5;
+    }
+  }
+  @media (max-width:560px){ .hero-visual{width:110px;} }
+
+  .scroll-cue{
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%); z-index:3;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--smoke);
+  }
+  .scroll-cue .line{width:1px; height:34px; background:linear-gradient(var(--gold), transparent); animation:down 1.8s infinite;}
+  @keyframes down{0%{opacity:0; transform:translateY(-6px);} 50%{opacity:1;} 100%{opacity:0; transform:translateY(10px);}}
+
+  /* ---------- DIVIDER (skewer / spatula) ---------- */
+  .divider{
+    display:flex; align-items:center; gap:18px;
+    max-width:var(--maxw); margin:0 auto; padding:0 28px;
+    color:var(--gold-dim);
+  }
+  .divider .stick{flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);}
+  .divider svg{width:26px; height:26px; opacity:0.75; flex-shrink:0;}
+  .section-pad{padding:120px 0;}
+
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease;}
+  .reveal.visible{opacity:1; transform:none;}
+  .stagger .reveal:nth-child(1){transition-delay:0s;}
+  .stagger .reveal:nth-child(2){transition-delay:.1s;}
+  .stagger .reveal:nth-child(3){transition-delay:.2s;}
+  .stagger .reveal:nth-child(4){transition-delay:.3s;}
+
+  /* ---------- SECTION HEADS ---------- */
+  .kicker{
+    font-family:'JetBrains Mono',monospace; font-size:0.78rem; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--ember); margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  }
+  .kicker::before{content:""; width:22px; height:1px; background:var(--ember);}
+  .section-title{font-size:clamp(2.2rem, 4.4vw, 3.6rem); max-width:680px;}
+  .section-sub{color:var(--cream-dim); font-size:1.05rem; max-width:560px; line-height:1.7; margin-top:18px;}
+
+  /* ---------- SOBRE ---------- */
+  .sobre{display:grid; grid-template-columns:1.1fr 0.9fr; gap:70px; align-items:center;}
+  .sobre-card{
+    background:linear-gradient(160deg, var(--char-800), var(--char-900));
+    border:1px solid var(--line); border-radius:20px; padding:38px;
+    position:relative; overflow:hidden;
+  }
+  .sobre-card::after{
+    content:""; position:absolute; width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle, rgba(232,73,29,0.25), transparent 70%);
+    top:-80px; right:-80px; filter:blur(10px);
+  }
+  .sobre-quote{font-family:'Caveat',cursive; font-size:1.7rem; color:var(--cream); line-height:1.4; position:relative; z-index:1;}
+  .sobre-meta{display:flex; gap:28px; margin-top:28px; position:relative; z-index:1; flex-wrap:wrap;}
+  .sobre-meta div{display:flex; flex-direction:column; gap:2px;}
+  .sobre-meta .n{font-family:'Anton',sans-serif; font-size:1.6rem; color:var(--gold);}
+  .sobre-meta .l{font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--smoke);}
+
+  /* ---------- DESTAQUES ---------- */
+  .cards-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:60px;}
+  .dish-card{
+    background:var(--char-800); border:1px solid var(--line); border-radius:18px;
+    padding:30px 26px; position:relative; overflow:hidden;
+    transition:transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+  }
+  .dish-card:hover{transform:translateY(-8px); border-color:rgba(232,73,29,0.5); box-shadow:0 24px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(232,73,29,0.15);}
+  .dish-card .icon{width:46px; height:46px; margin-bottom:22px; color:var(--ember);}
+  .dish-card .icon svg{width:100%; height:100%;}
+  .dish-card h3{font-size:1.25rem; margin-bottom:8px; letter-spacing:0.01em;}
+  .dish-card p{color:var(--cream-dim); font-size:0.92rem; line-height:1.55; min-height:66px;}
+  .dish-card .price{margin-top:18px; display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--line); padding-top:16px;}
+  .dish-card .price .val{font-family:'JetBrains Mono',monospace; color:var(--gold); font-weight:600; font-size:1.05rem;}
+  .dish-card .price .serves{font-size:0.72rem; color:var(--smoke); text-transform:uppercase; letter-spacing:0.05em;}
+  .destaques-cta{display:flex; justify-content:center; margin-top:56px;}
+
+  /* ---------- DRINKS (glass fill) ---------- */
+  .drinks{display:grid; grid-template-columns:0.9fr 1.1fr; gap:70px; align-items:center;}
+  .glass-wrap{display:flex; justify-content:center;}
+  .glass-svg{width:220px; height:auto;}
+  .liquid{transform:translateY(78%); transition:transform 1.6s cubic-bezier(.22,1,.36,1);}
+  .glass-wrap.visible .liquid{transform:translateY(8%);}
+  .foam{opacity:0; transition:opacity .6s ease .9s;}
+  .glass-wrap.visible .foam{opacity:1;}
+  .bubble{opacity:0; animation:rise 3.2s infinite ease-in;}
+  .glass-wrap.visible .bubble{opacity:0.8;}
+  .bubble:nth-child(2){animation-delay:.6s;}
+  .bubble:nth-child(3){animation-delay:1.4s;}
+  .bubble:nth-child(4){animation-delay:2.1s;}
+  @keyframes rise{
+    0%{transform:translateY(0); opacity:0;}
+    15%{opacity:0.9;}
+    100%{transform:translateY(-90px); opacity:0;}
+  }
+  .drink-list{display:flex; flex-direction:column; gap:0;}
+  .drink-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:20px 0; border-bottom:1px solid var(--line);
+    transition:padding-left .3s ease;
+  }
+  .drink-row:hover{padding-left:12px;}
+  .drink-row:hover .drink-name{color:var(--ember-2);}
+  .drink-name{font-family:'Anton',sans-serif; font-size:1.15rem; transition:color .3s ease;}
+  .drink-desc{color:var(--smoke); font-size:0.85rem; margin-top:4px; max-width:380px;}
+  .drink-price{font-family:'JetBrains Mono',monospace; color:var(--gold); font-size:1rem; white-space:nowrap; margin-left:20px;}
+
+  /* ---------- AMBIENTE (foto + vídeo) ---------- */
+  .gallery{display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:380px; gap:16px; margin-top:56px;}
+  .gallery .g{grid-column:span 1; grid-row:span 1; border-radius:14px; position:relative; overflow:hidden; border:1px solid var(--line);
+    background:linear-gradient(150deg, var(--char-800), var(--char-700));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .gallery .g::before{
+    content:""; position:absolute; inset:0; opacity:0; transition:opacity .35s ease;
+    background:radial-gradient(circle at 30% 20%, rgba(232,73,29,0.25), transparent 60%);
+  }
+  .gallery .g:hover::before{opacity:1;}
+  .gallery .g:hover .g-label{color:var(--gold);}
+  .g-label{
+    font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--smoke); display:flex; flex-direction:column; align-items:center; gap:8px; transition:color .3s ease;
+  }
+  .g-label svg{width:26px; height:26px; opacity:0.6;}
+  .g-photo{padding:0;}
+  .g-photo img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0; transition:transform .6s ease;}
+  .g-photo:hover img{transform:scale(1.06);}
+  .g-photo .g-caption{
+    position:absolute; left:16px; right:16px; bottom:14px; z-index:2;
+    font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.04em;
+    color:var(--cream); text-shadow:0 2px 10px rgba(0,0,0,0.8);
+  }
+  .g-photo::after{
+    content:""; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(0deg, rgba(10,9,8,0.75), transparent 55%);
+  }
+  .g-video-wrap{padding:0; background:var(--char-950);}
+  .g-video-wrap .g-video{width:100%; height:100%; object-fit:cover; display:block; background:var(--char-950);}
+  .g-video-wrap .g-caption{
+    position:absolute; left:16px; bottom:14px; z-index:2; pointer-events:none;
+    font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.04em;
+    color:var(--cream); text-shadow:0 2px 10px rgba(0,0,0,0.8);
+  }
+  @media (max-width:700px){
+    .gallery{grid-template-columns:1fr; grid-auto-rows:260px;}
+  }
+
+  /* ---------- LOCALIZACAO ---------- */
+  .local{display:grid; grid-template-columns:0.95fr 1.05fr; gap:0; border:1px solid var(--line); border-radius:22px; overflow:hidden; margin-top:56px;}
+  .local-info{padding:52px; background:var(--char-800); display:flex; flex-direction:column; justify-content:center; gap:26px;}
+  .info-row{display:flex; gap:16px; align-items:flex-start;}
+  .info-row svg{width:22px; height:22px; color:var(--ember); flex-shrink:0; margin-top:2px;}
+  .info-row h4{font-family:'Manrope',sans-serif; font-weight:700; font-size:0.95rem; margin-bottom:4px;}
+  .info-row p{color:var(--cream-dim); font-size:0.92rem; line-height:1.5; margin:0;}
+  .local-map{position:relative; min-height:420px;}
+  .local-map iframe{position:absolute; inset:0; width:100%; height:100%; border:0; filter:grayscale(0.4) contrast(1.1);}
+  .local-actions{display:flex; gap:14px; margin-top:6px; flex-wrap:wrap;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line); padding:70px 0 30px;}
+  .footer-top{display:grid; grid-template-columns:1.3fr 0.7fr 0.7fr 0.9fr; gap:40px;}
+  .footer-brand{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.5rem; margin-bottom:14px;}
+  .footer-brand svg{width:24px; height:24px;}
+  .footer-tag{font-family:'Caveat',cursive; color:var(--gold); font-size:1.3rem;}
+  .footer-col h5{font-size:0.78rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--smoke); margin-bottom:16px;}
+  .footer-col a{display:block; color:var(--cream-dim); font-size:0.92rem; margin-bottom:10px; transition:color .2s;}
+  .footer-col a:hover{color:var(--gold);}
+  .footer-socials{display:flex; gap:12px;}
+  .social-btn{
+    width:42px; height:42px; border-radius:50%; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; transition:.25s;
+  }
+  .social-btn svg{width:18px; height:18px;}
+  .social-btn:hover{background:var(--ember); border-color:var(--ember); transform:translateY(-3px);}
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center; margin-top:64px; padding-top:26px;
+    border-top:1px solid var(--line); font-size:0.8rem; color:var(--smoke); flex-wrap:wrap; gap:14px;
+  }
+
+  /* ---------- WHATSAPP FLOAT ---------- */
+  .wa-float{
+    position:fixed; bottom:26px; right:26px; z-index:800;
+    width:60px; height:60px; border-radius:50%; background:#25D366;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 12px 30px rgba(37,211,102,0.45);
+    animation:floatPulse 2.6s infinite ease-in-out;
+  }
+  .wa-float svg{width:30px; height:30px; color:#fff;}
+  @keyframes floatPulse{0%,100%{transform:scale(1);} 50%{transform:scale(1.08);}}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .nav-links{display:none;}
+    .burger{display:flex;}
+    .sobre, .drinks{grid-template-columns:1fr; gap:40px;}
+    .cards-grid{grid-template-columns:repeat(2,1fr);}
+    .local{grid-template-columns:1fr;}
+    .local-info{padding:34px 26px;}
+    .local-map{min-height:280px;}
+    .footer-top{grid-template-columns:1fr 1fr; row-gap:36px;}
+    .gallery{grid-auto-rows:300px;}
+    .section-pad{padding:90px 0;}
+    .wrap{padding:0 20px;}
+  }
+  @media (max-width:560px){
+    .cards-grid{grid-template-columns:1fr;}
+    .section-pad{padding:70px 0;}
+    .sobre-card{padding:28px 22px;}
+    .local-info{padding:28px 20px;}
+    .dish-card{padding:24px 20px;}
+    .hero-ctas{flex-direction:column; align-items:stretch;}
+    .hero-ctas .btn{justify-content:center;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <img src="images/logo.png" alt="Toka Gastrobar" style="height:28px; width:auto; display:block;">
+      TOKA
+    </div>
+    <div class="nav-links">
+      <a href="#sobre">Sobre</a>
+      <a href="#ambiente">Ambiente</a>
+      <a href="#drinks">Drinks</a>
+      <a href="#destaques">Cardápio</a>
+      <a href="#local">Localização</a>
+    </div>
+    <a class="nav-cta" href="https://wa.me/5519931999790?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20reservar%20uma%20mesa%20no%20Toka." target="_blank" rel="noopener">
+      Reservar
+    </a>
+    <div class="burger" id="burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu" style="position:fixed; inset:0; background:var(--char-950); z-index:850; display:none; flex-direction:column; align-items:center; justify-content:center; gap:34px; font-family:'Anton',sans-serif; font-size:2rem;">
+  <a href="#sobre">Sobre</a>
+  <a href="#ambiente">Ambiente</a>
+  <a href="#drinks">Drinks</a>
+  <a href="#destaques">Cardápio</a>
+  <a href="#local">Localização</a>
+  <a href="/cardapio" style="color:var(--gold);">Cardápio completo →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="topo">
+  <canvas id="embers"></canvas>
+  <div class="wrap hero-content">
+    <div class="eyebrow"><span class="dot"></span> Artur Nogueira · SP · Terça a Domingo</div>
+    <h1>BRASA<br>QUE VIRA<br><span class="flame-word">HISTÓRIA
+      <svg viewBox="0 0 24 24"><path d="M12 2c2 3-1 4-1 6.5A3.5 3.5 0 0 0 15 12c0-1 0-2 .8-3 .6 1 1.2 2 1.2 3.8A5 5 0 0 1 12 22a5 5 0 0 1-5-5c0-3 2-4 2-6.5C9 8 8 9 7 10c0-4 2-6 5-8Z" fill="currentColor"/></svg>
+    </span>.</h1>
+    <p class="hero-tagline">"quando sua opinião for pix, a gente aceita"</p>
+    <p class="desc">Carne na brasa, gin na medida certa e aquele clima de boteco com alma de bar de verdade. Vem sentir o cheiro de fumaça e ficar até tarde.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-solid" href="https://wa.me/5519931999790?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20reservar%20uma%20mesa%20no%20Toka." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.7-2.7-.2-.3A8 8 0 1 1 12 20Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7.9-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.3.1-.4l.4-.5c.1-.1.1-.3 0-.4l-.7-1.6c-.2-.4-.3-.4-.5-.4h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 4 3.4.6.2 1 .4 1.4.5.6.2 1.1.2 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-.9.1-1Z"/></svg>
+        Reservar mesa
+      </a>
+      <a class="btn btn-ghost" href="/cardapio">Ver cardápio completo</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Desce</span><span class="line"></span></div>
+</section>
+
+<div class="divider"><div class="stick"></div>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12h13M12 8l4-4M12 16l4 4"/></svg>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 12H10M15 4v16"/><rect x="15" y="9" width="7" height="6" rx="1"/></svg>
+  <div class="stick"></div>
+</div>
+
+<!-- SOBRE -->
+<section class="section-pad" id="sobre">
+  <div class="wrap sobre">
+    <div class="reveal">
+      <div class="kicker">A casa</div>
+      <h2 class="section-title">Espaço amplo, arejado e com clima de fim de tarde que vira madrugada.</h2>
+      <p class="section-sub">O Toka nasceu pra ser o point de Artur Nogueira: um gastrobar de verdade, com cozinha de porções generosas, carta de drinks autoral e aquele atendimento que faz cliente virar da casa. Espeto na brasa, sertanejo ao vivo em alguns dias e mesa sempre farta.</p>
+    </div>
+    <div class="sobre-card reveal">
+      <p class="sobre-quote">"Ambiente super arejado, clima moderno e atendimento atencioso do começo ao fim."</p>
+      <div class="sobre-meta">
+        <div><span class="n">750+</span><span class="l">Avaliações</span></div>
+        <div><span class="n">Ter–Dom</span><span class="l">Funcionamento</span></div>
+        <div><span class="n">R$80–100 por pessoa</span><span class="l">Faixa de preço</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="stick"></div>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12h13M12 8l4-4M12 16l4 4"/></svg>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 12H10M15 4v16"/><rect x="15" y="9" width="7" height="6" rx="1"/></svg>
+  <div class="stick"></div>
+</div>
+
+<!-- AMBIENTE -->
+<section class="section-pad" id="ambiente">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">O ambiente</div>
+      <h2 class="section-title">Feito pra ficar</h2>
+      <p class="section-sub">Espaço espaço amplo, mesas externas e internas, música ao vivo em dias selecionados. Fotos reais do salão em breve — este é o layout já pronto pra receber.</p>
+    </div>
+    <div class="gallery stagger">
+      <div class="g g-photo reveal"><img src="/images/ambiente2.png" alt="Fachada do Toka Gastrobar iluminada à noite" loading="lazy"><span class="g-caption">Fachada · clima de container à noite</span></div>
+      <div class="g g-video-wrap reveal">
+        <video class="g-video" src="videos/videotoka.mp4" poster="images/ambiente2.png" controls muted playsinline preload="metadata"></video>
+        <span class="g-caption">Um giro pelo salão</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="stick"></div>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12h13M12 8l4-4M12 16l4 4"/></svg>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 12H10M15 4v16"/><rect x="15" y="9" width="7" height="6" rx="1"/></svg>
+  <div class="stick"></div>
+</div>
+
+<!-- DRINKS -->
+<section class="section-pad" id="drinks">
+  <div class="wrap drinks">
+    <div class="glass-wrap reveal" id="glassWrap">
+      <svg class="glass-svg" viewBox="0 0 160 240" fill="none">
+        <defs>
+          <clipPath id="glassClip"><path d="M40 20 L120 20 L108 210 Q100 225 80 225 Q60 225 52 210 Z"/></clipPath>
+          <linearGradient id="liqGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffb454"/>
+            <stop offset="100%" stop-color="#e8491d"/>
+          </linearGradient>
+        </defs>
+        <path d="M40 20 L120 20 L108 210 Q100 225 80 225 Q60 225 52 210 Z" stroke="#8c8175" stroke-width="2" fill="none"/>
+        <g clip-path="url(#glassClip)">
+          <rect class="liquid" x="30" y="40" width="100" height="220" fill="url(#liqGrad)"/>
+          <rect class="foam" x="30" y="40" width="100" height="20" fill="#f3e9d6"/>
+          <circle class="bubble" cx="65" cy="190" r="2.5" fill="#ffd9a8"/>
+          <circle class="bubble" cx="85" cy="200" r="2" fill="#ffd9a8"/>
+          <circle class="bubble" cx="75" cy="170" r="1.6" fill="#ffd9a8"/>
+          <circle class="bubble" cx="95" cy="180" r="2.2" fill="#ffd9a8"/>
+        </g>
+      </svg>
+    </div>
+    <div class="reveal">
+      <div class="kicker">Gin drinks & clássicos</div>
+      <h2 class="section-title" style="margin-bottom:20px;">Cada drink com xarope feito na casa</h2>
+      <div class="drink-list">
+        <div class="drink-row">
+          <div><div class="drink-name">Da Casa</div><div class="drink-desc">Gin, tônica, limão siciliano e xarope de limão siciliano.</div></div>
+          <div class="drink-price">R$ 33</div>
+        </div>
+        <div class="drink-row">
+          <div><div class="drink-name">Dragon Flower</div><div class="drink-desc">Gin, abacaxi, xarope de mirtilo e energético de pitaya.</div></div>
+          <div class="drink-price">R$ 39</div>
+        </div>
+        <div class="drink-row">
+          <div><div class="drink-name">Moscow Mule</div><div class="drink-desc">Vodka, limão espremido, xarope e espuma de gengibre.</div></div>
+          <div class="drink-price">R$ 32</div>
+        </div>
+        <div class="drink-row">
+          <div><div class="drink-name">Negroni c/ Aperol</div><div class="drink-desc">Gin, Aperol, vermute tinto e laranja fatiada.</div></div>
+          <div class="drink-price">R$ 28</div>
+        </div>
+        <div class="drink-row">
+          <div><div class="drink-name">Caipirinha de Frutas</div><div class="drink-desc">Limão, abacaxi, morango, maracujá ou kiwi — escolha a bebida.</div></div>
+          <div class="drink-price">a partir de R$ 26</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="stick"></div>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12h13M12 8l4-4M12 16l4 4"/></svg>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 12H10M15 4v16"/><rect x="15" y="9" width="7" height="6" rx="1"/></svg>
+  <div class="stick"></div>
+</div>
+
+<!-- DESTAQUES -->
+<section class="section-pad" id="destaques">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Especiais da casa</div>
+      <h2 class="section-title">O que ninguém sai do Toka sem provar</h2>
+      <p class="section-sub">Uma seleção do que mais sai da cozinha — pensado pra dividir na mesa, sempre com baguete do lado.</p>
+    </div>
+
+    <div class="cards-grid stagger">
+      <div class="dish-card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20 18 6M14 2l8 8M2 14l8 8M9 9l6 6" stroke-linecap="round"/></svg></div>
+        <h3>Churrastoka</h3>
+        <p>Linguiça artesanal da casa, contra filé em tiras, tulipa assada e batata frita no molho três queijos.</p>
+        <div class="price"><span class="serves">Serve até 3</span><span class="val">R$ 139</span></div>
+      </div>
+      <div class="dish-card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="10" width="18" height="8" rx="1"/><path d="M7 10V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3M3 18v2M21 18v2" stroke-linecap="round"/></svg></div>
+        <h3>Picanha na Chapa</h3>
+        <p>Arroz branco, vinagrete, farofa e escolha até duas opções: batata, pão de alho, feijão ou salada.</p>
+        <div class="price"><span class="serves">2 ou 4 pessoas</span><span class="val">R$ 139 / 249</span></div>
+      </div>
+      <div class="dish-card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3v6M10 3v6M6 9c0 2 4 2 4 0M8 9v12" stroke-linecap="round"/><path d="M16 21V10c3-1 3-6 0-7-3 1-3 6 0 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Trio do Toka</h3>
+        <p>Frango a passarinho, batata frita e calabresa acebolada — clássico pra abrir a noite em boa companhia.</p>
+        <div class="price"><span class="serves">Serve até 3</span><span class="val">R$ 122</span></div>
+      </div>
+      <div class="dish-card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3h8l-1 8a3 3 0 0 1-6 0Z"/><path d="M12 11v8M8 21h8"/></svg></div>
+        <h3>Gin Toka Flower</h3>
+        <p>Gin, soda, xarope de rosas e espuma de gengibre — a assinatura da casa, servida na taça balão.</p>
+        <div class="price"><span class="serves">Drink autoral</span><span class="val">R$ 35</span></div>
+      </div>
+    </div>
+
+    <div class="destaques-cta reveal">
+      <a class="btn btn-ghost" href="/cardapio">Ver cardápio completo →</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="stick"></div>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12h13M12 8l4-4M12 16l4 4"/></svg>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 12H10M15 4v16"/><rect x="15" y="9" width="7" height="6" rx="1"/></svg>
+  <div class="stick"></div>
+</div>
+
+<!-- LOCALIZACAO -->
+<section class="section-pad" id="local">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Como chegar</div>
+      <h2 class="section-title">Bora pro Toka</h2>
+    </div>
+    <div class="local reveal">
+      <div class="local-info">
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-7.5 8-13a8 8 0 1 0-16 0c0 5.5 8 13 8 13Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <div><h4>Endereço</h4><p>Rua Ernesto Tagliari, 1151 — Jd. Ricardo Duzzi<br>Artur Nogueira, SP · 13161-014</p></div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <div><h4>Funcionamento</h4><p>Terça a domingo · almoço aos domingos<br>Confira eventos e música ao vivo no Instagram</p></div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.4 2.1L8 10.3a16 16 0 0 0 6 6l1.5-1.4a2 2 0 0 1 2.1-.4c1 .4 2 .6 3 .7a2 2 0 0 1 1.7 2Z"/></svg>
+          <div><h4>Contato</h4><p>(19) 3199-9790 · toka.gastrobar@gmail.com</p></div>
+        </div>
+        <div class="local-actions">
+          <a class="btn btn-solid" href="https://wa.me/5519931999790" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>
+            Chamar no WhatsApp
+          </a>
+          <a class="btn btn-ghost" href="https://www.google.com/maps/place/TOKA+GASTROBAR/@-22.5796799,-47.1700625,20z" target="_blank" rel="noopener">Abrir no Google Maps</a>
+        </div>
+      </div>
+      <div class="local-map">
+        <iframe src="https://www.google.com/maps?q=-22.5796714,-47.1701277&z=17&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="Toka Gastrobar" style="height:32px; width:auto; display:block;">
+          TOKA GASTROBAR
+        </div>
+        <p class="footer-tag">Gratidão pela preferência. Volte sempre.</p>
+        <div class="footer-socials" style="margin-top:22px;">
+          <a class="social-btn" href="https://www.instagram.com/tokagastrobar/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          </a>
+          <a class="social-btn" href="https://www.facebook.com/tokagastrobar/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M15 8h-2a2 2 0 0 0-2 2v10M9 13h6"/><path d="M15 3H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V9"/></svg>
+          </a>
+          <a class="social-btn" href="https://wa.me/5519931999790" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Navegue</h5>
+        <a href="#sobre">Sobre</a>
+        <a href="#ambiente">Ambiente</a>
+        <a href="#drinks">Drinks</a>
+        <a href="#destaques">Destaques</a>
+      </div>
+      <div class="footer-col">
+        <h5>Cardápio</h5>
+        <a href="/cardapio">Entradas & Porções</a>
+        <a href="/cardapio#bebidas">Bebidas</a>
+        <a href="/cardapio#pratos">Pratos & Massas</a>
+        <a href="/cardapio#sobremesas">Sobremesas</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contato</h5>
+        <a href="tel:+551931999790">(19) 3199-9790</a>
+        <a href="mailto:toka.gastrobar@gmail.com">toka.gastrobar@gmail.com</a>
+        <a href="#local">Rua Ernesto Tagliari, 1151</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Toka Gastrobar — Artur Nogueira, SP</span>
+      <span class="mono">Feito com fogo e carinho 🔥</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5519931999790?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20reservar%20uma%20mesa%20no%20Toka." target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.7-2.7-.2-.3A8 8 0 1 1 12 20Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7.9-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.3.1-.4l.4-.5c.1-.1.1-.3 0-.4l-.7-1.6c-.2-.4-.3-.4-.5-.4h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 4 3.4.6.2 1 .4 1.4.5.6.2 1.1.2 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-.9.1-1Z"/></svg>
+</a>
+
+<script>
+  // NAV scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => {
+    const open = mobileMenu.style.display === 'flex';
+    mobileMenu.style.display = open ? 'none' : 'flex';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.style.display = 'none'));
+
+  // Reveal on scroll
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, {threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(el => reduced ? el.classList.add('visible') : io.observe(el));
+
+  const glassWrap = document.getElementById('glassWrap');
+  const gio = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ glassWrap.classList.add('visible'); gio.unobserve(glassWrap);} });
+  }, {threshold:0.4});
+  gio.observe(glassWrap);
+
+  // Chopp glass parallax follows cursor
+  const heroVisual = document.getElementById('heroVisual');
+  const heroSection = document.getElementById('topo');
+  if(heroVisual && heroSection && !reduced && window.innerWidth > 980){
+    heroSection.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      heroVisual.style.transform = `translate(${x * -10}px, ${y * -10}px)`;
+    });
+    heroSection.addEventListener('mouseleave', () => {
+      heroVisual.style.transform = 'translate(0,0)';
+    });
+  }
+
+  // Embers canvas
+  const canvas = document.getElementById('embers');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [];
+  function resize(){
+    w = canvas.width = canvas.offsetWidth * devicePixelRatio;
+    h = canvas.height = canvas.offsetHeight * devicePixelRatio;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function spawn(){
+    return {
+      x: Math.random()*w,
+      y: h + 20,
+      r: (Math.random()*2 + 0.6) * devicePixelRatio,
+      speed: (Math.random()*0.6 + 0.25) * devicePixelRatio,
+      drift: (Math.random()-0.5) * 0.5 * devicePixelRatio,
+      life: 0,
+      maxLife: Math.random()*300 + 200,
+      hue: Math.random() > 0.5 ? '232,73,29' : '217,164,65'
+    };
+  }
+  for(let i=0;i<70;i++){ const p = spawn(); p.y = Math.random()*h; particles.push(p); }
+
+  function tick(){
+    if(!reduced){
+      ctx.clearRect(0,0,w,h);
+      particles.forEach((p, i) => {
+        p.y -= p.speed;
+        p.x += Math.sin(p.life*0.02) * p.drift;
+        p.life++;
+        const fade = 1 - p.life / p.maxLife;
+        if(fade <= 0 || p.y < -20){ particles[i] = spawn(); return; }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(${p.hue}, ${Math.max(fade,0)*0.9})`;
+        ctx.shadowColor = `rgba(${p.hue}, 0.8)`;
+        ctx.shadowBlur = 8 * devicePixelRatio;
+        ctx.fill();
+      });
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+</script>
+
+</body>
+</html>
